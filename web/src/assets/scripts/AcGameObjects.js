@@ -15,12 +15,12 @@ export class AcGameobject{
         
     }
 
-    on_destory() {
+    on_destroy() {
 
     }
 
     destroyed() {
-        this.on_destory(); 
+        this.on_destroy(); 
         for (let i in AC_GAME_OBJECTS){
             const obj = AC_GAME_OBJECTS[i];
             if (obj === this) {
@@ -31,9 +31,8 @@ export class AcGameobject{
     }
 }
 
-let timestamp;
 let last_timestamp; //上一次执行时间
-const step = () => {
+const step = timestamp => {
     for (let obj of AC_GAME_OBJECTS) {
         if (!obj.has_called_start){
             obj.has_called_start = true;
