@@ -118,7 +118,7 @@ export class Snake extends AcGameobject {
 
         for (const cell of this.cells){
             ctx.beginPath();
-            ctx.arc(cell.x * L, cell.y * L, L / 2, 0, Math.PI * 2);
+            ctx.arc(cell.x * L, cell.y * L, L / 2 * 0.8, 0, Math.PI * 2);
             ctx.fill();
         }
 
@@ -133,7 +133,7 @@ export class Snake extends AcGameobject {
             }
         }
 
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "yellow";
         for (let i = 0; i < 2; i ++ ) {
             const eye_x = (this.cells[0].x + this.eye_dx[this.eye_direction][i] * 0.15) * L;
             const eye_y = (this.cells[0].y + this.eye_dy[this.eye_direction][i] * 0.15) * L;
