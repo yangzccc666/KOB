@@ -17,5 +17,4 @@ public class AddController {
     public Map<String, String> add(@RequestParam Map<String, String> data) {
         return addService.add(data);
     }
-
 }

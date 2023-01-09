@@ -4,7 +4,7 @@ import com.kob.backend.mapper.BotMapper;
 import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.impl.utils.UserDetailsImpl;
-import com.kob.backend.service.user.bot.AddService;
+import com.kob.backend.service.user.bot.UpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,17 +15,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class AddServiceImpl implements AddService {
-
+public class UpdateServiceImpl implements UpdateService {
     @Autowired
     private BotMapper botMapper;
 
     @Override
-    public Map<String, String> add(Map<String, String> data) {
+    public Map<String, String> update(Map<String, String> data) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
         User user = loginUser.getUser();
+
+        int bot_id = Integer.parseInt(data.get("bot_id"));
 
         String title = data.get("title");
         String description = data.get("description");
@@ -62,10 +63,31 @@ public class AddServiceImpl implements AddService {
             return map;
         }
 
-        Date now = new Date();
-        Bot bot = new Bot(null, user.getId(), title, description, content, 1500, now, now);
+        Bot bot = botMapper.selectById(bot_id);
 
-        botMapper.insert(bot);
+        if (bot == null) {
+            map.put("error_message", "Bot不存在或已被删除");
+            return map;
+        }
+
+        if (!bot.getUserId().equals(user.getId())) {
+            map.put("error_message", "没有权限修改该Bot");
+            return map;
+        }
+
+        Bot new_bot = new Bot(
+                bot.getId(),
+                user.getId(),
+                title,
+                description,
+                content,
+                bot.getRating(),
+                bot.getCreate_time(),
+                new Date()
+        );
+
+        botMapper.updateById(new_bot);
+
         map.put("error_message", "success");
 
         return map;
