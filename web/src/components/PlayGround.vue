@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
 import GameMap from './GameMap.vue'
 
 export default {

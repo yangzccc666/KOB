@@ -36,7 +36,7 @@ export default{
         //     url: "http://127.0.0.1:3000/user/bot/remove/",
         //     type: "POST",
         //     data: {
-        //         bot_id: 4,
+        //         bot_id: 5,
         //     },
         //     headers: {
         //         Authorization: "Bearer " + store.state.user.token,
