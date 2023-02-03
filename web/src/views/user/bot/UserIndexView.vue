@@ -69,8 +69,8 @@
                                     <td>{{ bot.title }}</td>
                                     <td>{{ bot.rating }}</td>
                                     <!-- 时间是null值 -->
-                                    <td>{{ bot.create_time }}</td>  
-                                    <!-- <th>{{ bot.modify_time }}</th> -->
+                                     <td>{{ bot.create_time }}</td>
+                                     <!-- <th>{{ bot.modify_time }}</th> -->
                                     <td>
                                         <button type="button" class="btn btn-outline-secondary" style="margin-right: 10px;" data-bs-toggle="modal" :data-bs-target="'#update-bot-modal' + bot.id">修改</button>
                                         <button type="button" class="btn btn-outline-danger" @click="remove_bot(bot)">删除</button>
@@ -93,7 +93,7 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="add-bot-code" class="form-label">代码</label>
-                                                            <VAceEditor 
+                                                            <VAceEditor
                                                             v-model:value="bot.content"
                                                                 @init="editorInit"
                                                                 lang="c_cpp"
@@ -156,11 +156,11 @@ export default{
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 success(resp) {
-                    console.log(resp);
                     bots.value = resp;
-                }          
+                }
             })
         }
+
 
         refresh_bots();
 
