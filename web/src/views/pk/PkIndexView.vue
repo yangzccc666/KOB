@@ -42,8 +42,8 @@ export default{
                     });
                     setTimeout(() => {
                         store.commit("updateStatus", "playing");
-                    },2000);
-                    store.commit("updateGamemap", data.gamemap);
+                    },1000);
+                    store.commit("updateGame", data.game);
                 }
             }
 
