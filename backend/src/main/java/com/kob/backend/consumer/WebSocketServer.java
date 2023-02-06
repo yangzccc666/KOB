@@ -20,12 +20,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾
 public class WebSocketServer {
 
-    private static final ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     private static final CopyOnWriteArrayList<User> matchpool = new CopyOnWriteArrayList<>();
     private User user;
     private Session session = null;
 
     private static UserMapper userMapper;
+    private Game game = null;
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -72,6 +73,8 @@ public class WebSocketServer {
 
             Game game = new Game(13, 14, 20, a.getId(), b.getId());
             game.createMap();
+            users.get(a.getId()).game = game;
+            users.get(b.getId()).game = game;
 
             JSONObject respGame = new JSONObject();
             respGame.put("a_id", game.getPlayerA().getId());
