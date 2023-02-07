@@ -107,6 +107,14 @@ public class WebSocketServer {
         matchpool.remove(this.user);
     }
 
+    private void move(int direction) {
+        if (game.getPlayerA().getId().equals(user.getId())) {
+            game.setNextStepA(direction);
+        } else if (game.getPlayerB().getId().equals(user.getId())) {
+            game.setNextStepB(direction);
+        }
+    }
+
     @OnMessage
     public void onMessage(String message, Session session) {    // 当作路由
         // 从Client接收消息
@@ -117,6 +125,8 @@ public class WebSocketServer {
             startMatching();
         } else if ("stop-matching".equals(event)) {
             stopMatching();
+        } else if("move".equals(event)){
+                move(data.getInteger("direction"));
         }
     }
 

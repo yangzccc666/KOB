@@ -45,10 +45,7 @@ export default {
                 store.state.pk.socket.send(JSON.stringify({
                     event: "stop-matching",
                 }));               
-            }
-            setTimeout(() => {
-                    store.commit("updateStatus", "playing");
-                }, 2000);
+            }           
         }
 
         return {

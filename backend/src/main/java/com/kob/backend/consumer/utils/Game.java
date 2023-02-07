@@ -30,31 +30,29 @@ public class Game extends  Thread {
     }
 
     public Player getPlayerA() {
-        lock.lock();
-        try {
-            return playerA;
-        } finally {
-            lock.unlock();
-        }
-
+        return playerA;
     }
 
     public Player getPlayerB() {
-        lock.lock();
-        try {
-            return playerB;
-        } finally {
-            lock.unlock();
-        }
-
+        return playerB;
     }
 
     public void setNextStepA(Integer nextStepA) {
-        this.nextStepA = nextStepA;
+        lock.lock();
+        try{
+            this.nextStepA = nextStepA;
+        } finally {
+            lock.unlock();
+        }
     }
 
     public void setNextStepB(Integer nextStepB) {
-        this.nextStepB = nextStepB;
+        lock.lock();
+        try{
+            this.nextStepB = nextStepB;
+        } finally {
+            lock.unlock();
+        }
     }
 
     public int[][] getG() {
@@ -125,10 +123,11 @@ public class Game extends  Thread {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        for (int i = 0; i < 5; i++) {
+
+        for (int i = 0; i < 50; i++) {
             try {
+                Thread.sleep(100);
                 lock.lock();
-                Thread.sleep(1000);
                 try {
                     if (nextStepA != null && nextStepB != null) {
                         playerA.getSteps().add(nextStepA);
@@ -161,6 +160,7 @@ public class Game extends  Thread {
             resp.put("event", "move");
             resp.put("a_direction", nextStepA);
             resp.put("b_direction", nextStepB);
+            sendAllMessage(resp.toJSONString());
             nextStepA = nextStepB = null;
         } finally {
             lock.unlock();
@@ -187,7 +187,7 @@ public class Game extends  Thread {
                     break;
                 }
             } else {
-                status = "finish";
+                status = "finished";
                 lock.lock();
                 try {
                     if (nextStepA == null && nextStepB == null) {
