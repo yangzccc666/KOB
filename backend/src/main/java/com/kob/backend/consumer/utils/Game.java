@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kob.backend.consumer.WebSocketServer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -144,8 +145,25 @@ public class Game extends  Thread {
         return false;
     }
 
-    private void judge() {  // 判断两条蛇操作是否合法
+    private boolean check_valid(List<Cell> cellsA, List<Cell> cellsB) {
+        int n = cellsA.size();
+        Cell cell = cellsA.get(n - 1);
+        if (g[cell.x][cell.y == 1) return false;
 
+        for (int i = 0; i < n - 1; i ++) {
+            if (cellsA.get(i).x == cell.x && cellsA.get(i).y == cell.y)
+                return false;
+        }
+        for (int i = 0; i < n - 1; i ++) {
+            if (cellsB.get(i).x == cell.x && cellsB.get(i).y == cell.y)
+                return false;
+        }
+        return true;
+    }
+
+    private void judge() {  // 判断两条蛇操作是否合法
+        List<Cell> cellsA = playerA.getCells();
+        List<Cell> cellsB = playerB.getCells();
     }
 
     private void sendAllMessage(String message){
